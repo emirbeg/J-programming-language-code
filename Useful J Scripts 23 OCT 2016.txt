@@ -1,0 +1,111 @@
+Useful J Scripts:
+
+s is a boxed sentence of words
+s =: ' ';'this';'is';'a';'sentence'
+
+A sentence can be boxed from a list string like this
+x =: ;: 'how cool is this'
+
+Adding to sentence when boxing:
+s,('this';'this';'and';'this')
+
+Removes duplicated words
+~. s 
+
+Removes ‘is’ word from s
+s -. <'is'
+
+Add letter h to beginning of each word in s
+’h’, each s
+
+Add letter h to end of each word in s
+s, each 'h'
+
+Replace last letter of each word in s with h
+(}: each s) ,each 'h'
+
+Replace word with word usage: s replace ‘^’;’*’
+replace =: 4 : 0
+  old =. >0{y
+  new =. >1{y
+(<,new) (I. x = <,old)} x
+)
+
+Insert word into position 0 of s (replaces existing)
+(<,’is') 0} s
+
+Replace word at index  Usage: s replaceatindex 5;’word’
+replaceatindex =: 4 : 0
+  pos =. >0{y
+  new =. >1{y
+(<,new) pos} x
+)
+
+Insert word into position 4 of s (without replacing)
+4 ({.,(<'sample'),}.) s
+
+Dyadic implementation of above #Usage s insert 2;'haa'
+insert =: 4 : 0
+   position=. >0{y
+   text=. >1{y
+   position ({.,(<,text),}.) x
+)
+
+Take out sentence starting from 2 word (behead first 2 words)
+2 }. s
+
+Removes words 2 to 4 from sentence
+(2 {. s), 4 }.s
+
+Remove nth word from sentence
+remove =: 4 : 0
+   a=. y {. x
+   b=. (y+1) }. x
+   a,b
+)
+
+Find the position of the word in the sentence
+(I. x = <'is')
+
+Removes words between the characters ! and ?, the +1 means to also remove the ending ‘?’
+x =: ;: 'how many words! does it take to? finish ha'
+((I. x = <,'!') {. x), (1+ I. x = <,'?') }. x
+
+Removes words between words ‘words’ and ‘finish’, the +1 means to also remove the beginning ‘words’
+((1+I. x = <,’words’) {. x), (I. x = <,’finish’) }. x
+
+Get everything before ^ 
+((I. s = <,'^') {. s)
+
+Get everything after $ 
+(1+I. s = <,'$') }. s
+
+Dyadic implementation of above #Usage: s allafter ‘word’
+allafter =: 4 : 0
+(1+I. x = <,y) }. x
+)
+
+Dyadic implementation of above #Usage: s allafter ‘word’
+allbefore =: 4 : 0
+((I. x = <,y) {. x)
+)
+
+Find words between ^ and $  #Usage: s between ‘^’;’$’ (works on unique words only, DOES NOT WORK if word repeats in sentence)
+
+between =: 4 : 0
+aft =: (1+I. x = <,>0{y) }. x
+NB. bef =: (I. x = <,>1{y) {. x
+(I. aft = <,>1{y) {. aft
+)
+
+Finds position of . character in string
+string =:'"Linux use.rs group meets second? Wednesday> of each month."'
+I. '.' = string
+
+Finds position of word in boxed sentence Usage: s indexof 'the'
+indexof =: 4 : 0
+(1 I.@:> (<,y) I. x)
+)
+
+All possible permutations of a sentence
+(i.!4) A. s
