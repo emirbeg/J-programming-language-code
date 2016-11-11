@@ -1,0 +1,47 @@
+SED with J
+
+Replaces word with new word usage:'data7.txt' repl 'test';'works'
+
+replaceword =: 4 : 0
+old =. >0{y
+new=. >1{y
+
+command =: 'sed -i "" ''s/',old,'/',new,'/g'' ',x
+
+shell command
+)
+
+Replace text on each line between two patterns (inclusive):
+sed -i "" '/foo/,/bar/ s/./x/g' file.txt
+
+Delete lines between two patterns (inclusive):
+sed -i "" '/foo/,/bar/d' file.txt
+
+
+**** PERL ****
+
+print text between two regexes (ex "BEGIN" and "END" tag) included
+perl -ne 'print if /BEGIN/../END/' data7.txt
+
+print text between two regexes (ex "BEGIN" and "END" tag) non-included
+awk '/^BEGIN$/,/^END$/{if (!/^BEGIN$/&&!/^END$/)print}' data7.txt
+
+removes BEGIN AND END tags from file
+perl -pe 'if(/BEGIN/../END/){s///g}' data7.txt
+
+removes BEGIN AND END tags and text between them
+perl -pe 'if(/BEGIN/../END/){s/.//g}' data7.txt
+
+removes text between TAGS but keeps tags (does not save to file)
+awk '
+    BEGIN       {p=1}
+    /^BEGIN/   {print;p=0}
+    /^END/     {p=1}
+    p' data7.txt
+
+Removes text between TAGS but keeps tags (DOES SAVE TO FILE)
+gawk -i inplace '
+    BEGIN       {p=1}
+    /^BEGIN/   {print;p=0}
+    /^END/     {p=1}
+    p' data7.txt
