@@ -109,3 +109,6 @@ indexof =: 4 : 0
 
 All possible permutations of a sentence
 (i.!4) A. s
+
+Is 'hundred' a word in the sentence
+(;:'hundred') e. s
