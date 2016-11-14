@@ -112,3 +112,8 @@ All possible permutations of a sentence
 
 Is 'hundred' a word in the sentence
 (;:'hundred') e. s
+
+Generate boxed index
+n=.(<"0) (i.20)
+Add index on top of box
+n,:s
